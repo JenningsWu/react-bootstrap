@@ -4,6 +4,8 @@ import BootstrapMixin from './BootstrapMixin';
 import ValidComponentChildren from './utils/ValidComponentChildren';
 import Nav from './Nav';
 import NavItem from './NavItem';
+import DropdownButton from './DropdownButton';
+import MenuItem from './MenuItem';
 
 function getDefaultActiveKeyFromChildren(children) {
   let defaultActiveKey;
@@ -91,6 +93,9 @@ const TabbedArea = React.createClass({
   renderPane(child, index) {
     let activeKey = this.getActiveKey();
 
+    if (child.props.navItem)
+      return ValidComponentChildren.map(child.props.children, this.renderPane);
+
     return cloneElement(
         child,
         {
@@ -104,8 +109,33 @@ const TabbedArea = React.createClass({
       );
   },
 
+  renderMenu(child) {
+    let {eventKey, className, tab, disabled} = child.props;
+    return (
+      <MenuItem
+        ref={'tab' + eventKey}
+        eventKey={eventKey}
+        className={className}
+        disabled={disabled}>
+        {tab}
+      </MenuItem>
+    );
+  },
+
   renderTab(child) {
-    let {eventKey, className, tab, disabled } = child.props;
+    let {eventKey, className, tab, disabled, navItem} = child.props;
+    if (navItem)
+      return (
+        <DropdownButton
+          ref={'tab' + eventKey}
+          eventKey={eventKey}
+          className={className}
+          disabled={disabled}
+          title={tab}
+          navItem={navItem}>
+          {ValidComponentChildren.map(child.props.children, this.renderMenu)}
+        </DropdownButton>
+      );
     return (
       <NavItem
         ref={'tab' + eventKey}
