@@ -93,6 +93,8 @@ const TabbedArea = React.createClass({
   renderPane(child, index) {
     let activeKey = this.getActiveKey();
 
+    if (child.props.onClick)
+      return;
     if (child.props.navItem)
       return ValidComponentChildren.map(child.props.children, this.renderPane);
 
@@ -110,16 +112,28 @@ const TabbedArea = React.createClass({
   },
 
   renderMenu(child) {
-    let {eventKey, className, tab, disabled} = child.props;
-    return (
-      <MenuItem
-        ref={'tab' + eventKey}
-        eventKey={eventKey}
-        className={className}
-        disabled={disabled}>
-        {tab}
-      </MenuItem>
-    );
+    let {eventKey, className, tab, disabled, onClick} = child.props;
+    if (onClick)
+      return (
+        <MenuItem
+          ref={'tab' + eventKey}
+          eventKey={eventKey}
+          className={className}
+          disabled={disabled}
+          onClick={onClick}>
+          {tab}
+        </MenuItem>
+      );
+    else
+      return (
+        <MenuItem
+          ref={'tab' + eventKey}
+          eventKey={eventKey}
+          className={className}
+          disabled={disabled}>
+          {tab}
+        </MenuItem>
+      );
   },
 
   renderTab(child) {
