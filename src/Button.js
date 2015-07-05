@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import BootstrapMixin from './BootstrapMixin';
+import CustomPropTypes from './utils/CustomPropTypes';
+import ButtonInput from './ButtonInput';
 
 const Button = React.createClass({
   mixins: [BootstrapMixin],
@@ -11,16 +13,20 @@ const Button = React.createClass({
     block: React.PropTypes.bool,
     navItem: React.PropTypes.bool,
     navDropdown: React.PropTypes.bool,
-    componentClass: React.PropTypes.node,
+    componentClass: CustomPropTypes.elementType,
     href: React.PropTypes.string,
-    target: React.PropTypes.string
+    target: React.PropTypes.string,
+    /**
+     * Defines HTML button type Attribute
+     * @type {("button"|"reset"|"submit")}
+     */
+    type: React.PropTypes.oneOf(ButtonInput.types)
   },
 
   getDefaultProps() {
     return {
       bsClass: 'button',
-      bsStyle: 'default',
-      type: 'button'
+      bsStyle: 'default'
     };
   },
 
@@ -31,7 +37,7 @@ const Button = React.createClass({
     classes = {
       active: this.props.active,
       'btn-block': this.props.block,
-      ...classes // eslint-disable-line object-shorthand
+      ...classes
     };
 
     if (this.props.navItem) {
@@ -67,6 +73,7 @@ const Button = React.createClass({
     return (
       <Component
         {...this.props}
+        type={this.props.type || 'button'}
         className={classNames(this.props.className, classes)}>
         {this.props.children}
       </Component>

@@ -36,9 +36,9 @@ const Nav = React.createClass({
   },
 
   getCollapsibleDimensionValue() {
-    let node = React.findDOMNode(this.refs.ul),
-        height = node.offsetHeight,
-        computedStyles = domUtils.getComputedStyles(node);
+    let node = React.findDOMNode(this.refs.ul);
+    let height = node.offsetHeight;
+    let computedStyles = domUtils.getComputedStyles(node);
 
     return height + parseInt(computedStyles.marginTop, 10) + parseInt(computedStyles.marginBottom, 10);
   },
@@ -52,7 +52,7 @@ const Nav = React.createClass({
 
     return (
       <nav {...this.props} className={classNames(this.props.className, classes)}>
-        {this.renderUl()}
+        { this.renderUl() }
       </nav>
     );
   },
@@ -67,7 +67,11 @@ const Nav = React.createClass({
     classes['navbar-right'] = this.props.right;
 
     return (
-      <ul {...this.props} className={classNames(this.props.className, classes)} ref="ul">
+      <ul {...this.props}
+        role={this.props.bsStyle === 'tabs' ? 'tablist' : null}
+        className={classNames(this.props.className, classes)}
+        ref="ul"
+      >
         {ValidComponentChildren.map(this.props.children, this.renderNavItem)}
       </ul>
     );
@@ -95,6 +99,7 @@ const Nav = React.createClass({
     return cloneElement(
       child,
       {
+        role: this.props.bsStyle === 'tabs' ? 'tab' : null,
         active: this.getChildActiveProp(child),
         activeKey: this.props.activeKey,
         activeHref: this.props.activeHref,

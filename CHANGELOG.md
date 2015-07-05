@@ -1,3 +1,81 @@
+v0.23.7 - Wed, 01 Jul 2015 15:18:30 GMT
+---------------------------------------
+
+- [35ea201](../../commit/35ea201) [fixed] Accidental breaking change in Modal trigger
+
+
+
+v0.23.6 - Wed, 01 Jul 2015 00:48:02 GMT
+---------------------------------------
+
+- [1b1af04](../../commit/1b1af04) [changed] deprecate ModalTrigger
+- [83b4cbc](../../commit/83b4cbc) [changed] Modal doesn't require ModalTrigger
+- [d70f617](../../commit/d70f617) [changed] tooltips and popovers required id's for a11y
+- [389cf3f](../../commit/389cf3f) [changed] Deprecate OverlayTrigger positioning api and "manual" trigger
+- [5eb8666](../../commit/5eb8666) [added] Overlay component
+- [1638f69](../../commit/1638f69) [added] Position component for custom Overlays
+- [f799110](../../commit/f799110) [added] Portal component; replaces OverlayMixin
+- [97ef415](../../commit/97ef415) [fixed] Modal won't steal focus from children
+- [a8b177a](../../commit/a8b177a) [fixed] Stack overflow with nested Modals
+- [3caa866](../../commit/3caa866) [changed] Update babel-loader
+- [6ffa325](../../commit/6ffa325) [fixed] 'componentClass' property type is 'elementType' now
+- [0e5980f](../../commit/0e5980f) [added] 'elementType' custom prop type validator
+- [8f582d2](../../commit/8f582d2) [changed] Update karma-chrome-launcher. Dev dependency
+- [d4089d0](../../commit/d4089d0) [changed] Update eslint-plugin-mocha. Dev dependency
+- [fd547f4](../../commit/fd547f4) [changed] Update karma-mocha. Dev dependency.
+- [c5797e8](../../commit/c5797e8) [added] componentClass prop to Jumbotron
+
+
+
+v0.23.5 - Tue, 23 Jun 2015 01:31:35 GMT
+---------------------------------------
+
+- [23f9d21](../../commit/23f9d21) [changed] Add missed prop types validations.
+- [320b7ab](../../commit/320b7ab) [changed] Update fs-extra. Dev dependency.
+- [2ffcf5d](../../commit/2ffcf5d) [fixed] Popovers flicker when moving mouse amongst children of the trigger
+- [ccc50e0](../../commit/ccc50e0) [fixed] Accessibility: Panel header uses aria-controls
+- [1e552cc](../../commit/1e552cc) [added] Accessibility: use appropriate ARIA's when an id is given to the tabbed area
+- [8752754](../../commit/8752754) [added] Add linkId prop to NavItem
+- [722969d](../../commit/722969d) [added] Accessibility, add tab roles when type "tabs"
+- [4adaa70](../../commit/4adaa70) [added] Accessibility: role 'alert' and aria-label to Alert component
+- [2594dce](../../commit/2594dce) [fixed] Modal Null Exception when react-bootstrap is loaded before the Body tag
+- [e77bf88](../../commit/e77bf88) [changed] Update eslint. Dev dependency.
+
+
+
+v0.23.4 - Tue, 16 Jun 2015 00:37:04 GMT
+---------------------------------------
+
+- [0ce46b9](../../commit/0ce46b9) [changed] only autofocus modals when enforceFocus is true (the default)
+- [c5855d2](../../commit/c5855d2) [changed] createChainedFunction to chain many functions, and to throw if non-functions are provided.
+- [d18dadb](../../commit/d18dadb) [fixed] container content no longer shifts when overflowing
+- [66f0f92](../../commit/66f0f92) [added] enforceFocus prop to Modal
+- [3869ca2](../../commit/3869ca2) [fixed] Modal doesn't "jump" when container is overflowing
+
+
+
+v0.23.3 - Fri, 12 Jun 2015 21:46:30 GMT
+---------------------------------------
+
+- [9ca26e9](../../commit/9ca26e9) [added] contains "polyfill" to domUtils
+- [3a254a1](../../commit/3a254a1) [added] Deprecation warning for individual file use in the Bower release
+- [73c7705](../../commit/73c7705) [changed] Update chai. Dev dependency.
+- [3ca90c7](../../commit/3ca90c7) [changed] Update karma-sinon-chai. Dev dependency.
+- [cc4e820](../../commit/cc4e820) [changed] Update fs-extra. Dev dependency.
+
+
+
+v0.23.2 - Mon, 08 Jun 2015 18:56:48 GMT
+---------------------------------------
+
+- [7211dcb](../../commit/7211dcb) [added] Add prevIcon and nextIcon props as node proptypes to Carousel
+- [5734ec3](../../commit/5734ec3) [added] Pagination component
+- [2f8c454](../../commit/2f8c454) [changed] Assert ProgressBar children can be ProgressBar only.
+- [2c46820](../../commit/2c46820) [added] `createSelectedEvent` for consistent onSelect handling
+- [c2ff9ad](../../commit/c2ff9ad) [added] property disabled on MenuItem
+
+
+
 v0.23.1 - Tue, 02 Jun 2015 16:57:57 GMT
 ---------------------------------------
 

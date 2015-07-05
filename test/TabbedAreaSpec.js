@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react/lib/ReactTestUtils';
 import TabbedArea from '../src/TabbedArea';
+import NavItem from '../src/NavItem';
 import TabPane from '../src/TabPane';
 import ValidComponentChildren from '../src/utils/ValidComponentChildren';
 
@@ -82,8 +83,8 @@ describe('TabbedArea', function () {
 
     let panes = ReactTestUtils.scryRenderedComponentsWithType(instance, TabPane);
 
-    assert.ok(panes[0].getDOMNode().className.match(/\bcustom\b/));
-    assert.equal(panes[0].getDOMNode().id, 'pane0id');
+    assert.ok(React.findDOMNode(panes[0]).className.match(/\bcustom\b/));
+    assert.equal(React.findDOMNode(panes[0]).id, 'pane0id');
   });
 
   it('Should show the correct initial pane', function () {
@@ -194,7 +195,7 @@ describe('TabbedArea', function () {
     let tabPane = ReactTestUtils.scryRenderedComponentsWithType(instance, TabPane);
 
     assert.equal(tabPane.length, 2);
-    assert.equal(tabPane[1].getDOMNode().getAttribute('class').match(/pull-right/)[0], 'pull-right');
+    assert.equal(React.findDOMNode(tabPane[1]).getAttribute('class').match(/pull-right/)[0], 'pull-right');
   });
 
   it('Should pass disabled to NavItem', function () {
@@ -229,5 +230,49 @@ describe('TabbedArea', function () {
     assert.equal(tabbedArea.refs.tabs.props.activeKey, 2);
   });
 
+  describe('Web Accessibility', function(){
 
+    it('Should generate ids from parent id', function () {
+      let instance = ReactTestUtils.renderIntoDocument(
+        <TabbedArea defaultActiveKey={2} id='tabs'>
+          <TabPane tab="Tab 1" eventKey={1}>Tab 1 content</TabPane>
+          <TabPane tab="Tab 2" eventKey={2}>Tab 2 content</TabPane>
+        </TabbedArea>
+      );
+
+      let tabs = ReactTestUtils.scryRenderedComponentsWithType(instance, NavItem);
+
+      tabs.every(tab =>
+        assert.ok(tab.props['aria-controls'] && tab.props.linkId));
+    });
+
+    it('Should add aria-controls', function () {
+      let instance = ReactTestUtils.renderIntoDocument(
+        <TabbedArea defaultActiveKey={2} id='tabs'>
+          <TabPane id='pane-1' tab="Tab 1" eventKey={1}>Tab 1 content</TabPane>
+          <TabPane id='pane-2' tab="Tab 2" eventKey={2}>Tab 2 content</TabPane>
+        </TabbedArea>
+      );
+
+      let panes = ReactTestUtils.scryRenderedComponentsWithType(instance, TabPane);
+
+      assert.equal(panes[0].props['aria-labelledby'], 'pane-1___tab');
+      assert.equal(panes[1].props['aria-labelledby'], 'pane-2___tab');
+    });
+
+    it('Should add aria-controls', function () {
+      let instance = ReactTestUtils.renderIntoDocument(
+        <TabbedArea defaultActiveKey={2} id='tabs'>
+          <TabPane id='pane-1' tab="Tab 1" eventKey={1}>Tab 1 content</TabPane>
+          <TabPane id='pane-2' tab="Tab 2" eventKey={2}>Tab 2 content</TabPane>
+        </TabbedArea>
+      );
+
+      let tabs = ReactTestUtils.scryRenderedComponentsWithType(instance, NavItem);
+
+      assert.equal(tabs[0].props['aria-controls'], 'pane-1');
+      assert.equal(tabs[1].props['aria-controls'], 'pane-2');
+    });
+
+  });
 });

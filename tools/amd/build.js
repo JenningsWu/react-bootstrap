@@ -14,10 +14,12 @@ const bowerJson = path.join(bowerRoot, 'bower.json');
 const readme = path.join(__dirname, 'README.md');
 const license = path.join(repoRoot, 'LICENSE');
 
-const babelOptions = {modules: 'amd'};
+const babelOptions = {
+  __reactBootstrapDeprecationWarning: true,
+  modules: 'amd'
+};
 
 const libDestination = path.join(bowerRoot, 'lib');
-const factoriesDestination = path.join(libDestination, 'factories');
 
 function bowerConfig() {
   return Promise.all([
@@ -34,10 +36,10 @@ export default function BuildBower() {
   console.log('Building: '.cyan + 'bower module'.green);
 
   return exec(`rimraf ${bowerRoot}`)
-    .then(() => fsp.mkdirs(factoriesDestination))
+    .then(() => fsp.mkdirs(libDestination))
     .then(() => Promise.all([
       bowerConfig(),
-      generateFactories(factoriesDestination, babelOptions),
+      generateFactories(libDestination, babelOptions),
       buildFolder(srcRoot, libDestination, babelOptions),
       copy(readme, bowerRoot),
       copy(license, bowerRoot)

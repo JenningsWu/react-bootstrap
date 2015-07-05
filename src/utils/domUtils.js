@@ -1,5 +1,13 @@
 import React from 'react';
 
+
+let canUseDom = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
+
+
 /**
  * Get elements owner document
  *
@@ -9,6 +17,27 @@ import React from 'react';
 function ownerDocument(componentOrElement) {
   let elem = React.findDOMNode(componentOrElement);
   return (elem && elem.ownerDocument) || document;
+}
+
+function ownerWindow(componentOrElement) {
+  let doc = ownerDocument(componentOrElement);
+  return doc.defaultView
+       ? doc.defaultView
+       : doc.parentWindow;
+}
+
+/**
+ * get the active element, safe in IE
+ * @return {HTMLElement}
+ */
+function getActiveElement(componentOrElement){
+  let doc = ownerDocument(componentOrElement);
+
+  try {
+    return doc.activeElement || doc.body;
+  } catch (e) {
+    return doc.body;
+  }
 }
 
 /**
@@ -59,12 +88,25 @@ function getOffset(DOMNode) {
  * @returns {{top: number, left: number}}
  */
 function getPosition(elem, offsetParent) {
+  let offset,
+      parentOffset;
+
   if (window.jQuery) {
-    return window.jQuery(elem).position();
+    if (!offsetParent) {
+      return window.jQuery(elem).position();
+    }
+
+    offset = window.jQuery(elem).offset();
+    parentOffset = window.jQuery(offsetParent).offset();
+
+    // Get element offset relative to offsetParent
+    return {
+      top: offset.top - parentOffset.top,
+      left: offset.left - parentOffset.left
+    };
   }
 
-  let offset,
-      parentOffset = {top: 0, left: 0};
+  parentOffset = {top: 0, left: 0};
 
   // Fixed elements are offset from window (parentOffset = {top:0, left: 0}, because it is its only offset parent
   if (getComputedStyles(elem).position === 'fixed' ) {
@@ -113,10 +155,38 @@ function offsetParentFunc(elem) {
   return offsetParent || docElem;
 }
 
+/**
+ * Cross browser .contains() polyfill
+ * @param  {HTMLElement} elem
+ * @param  {HTMLElement} inner
+ * @return {bool}
+ */
+function contains(elem, inner){
+  function ie8Contains(root, node) {
+    while (node) {
+      if (node === root) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+  return (elem && elem.contains)
+      ? elem.contains(inner)
+      : (elem && elem.compareDocumentPosition)
+          ? elem === inner || !!(elem.compareDocumentPosition(inner) & 16)
+          : ie8Contains(elem, inner);
+}
+
 export default {
+  canUseDom,
+  contains,
+  ownerWindow,
   ownerDocument,
   getComputedStyles,
   getOffset,
   getPosition,
+  activeElement: getActiveElement,
   offsetParent: offsetParentFunc
 };

@@ -16,6 +16,11 @@ room of the urgent issues. We are using
 [HuBoard](https://huboard.com/react-bootstrap/react-bootstrap) which is a kanban
 style board to track and prioritize issues.
 
+Some issues are opened that are just too vague to do anything about. If after
+attempting to get feedback from issue authors fails after 7 days, then close the
+issue. Please inform the issue author that they may re-open if they are able to
+present the requested information.
+
 ## Merging a pull request
 
 Please, make sure:
@@ -51,7 +56,7 @@ helping out.
 
 GitHub by default does not publicly state that you are a member of the
 organization. Please feel free to change that setting for yourself so others
-will know who's helping out. That can be configured on [organization
+will know who's helping out. That can be configured on the [organization
 list](https://github.com/orgs/react-bootstrap/people) page.
 
 Being a maintainer is not an obligation. You can help when you have time and be
@@ -77,7 +82,7 @@ Example usages of the release script:
 $ ./tools/release patch
 $ ./tools/release minor
 $ ./tools/release major
-$ ./tools/release minor --pre beta
+$ ./tools/release minor --preid beta
 ```
 
 Note that the above commands will bump the [semver](http://semver.org) version

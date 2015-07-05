@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react/lib/ReactTestUtils';
 import OverlayMixin from '../src/OverlayMixin';
+import { shouldWarn } from './helpers';
 
 describe('OverlayMixin', function () {
   let instance;
@@ -17,9 +18,14 @@ describe('OverlayMixin', function () {
     }
   });
 
+
   afterEach(function() {
     if (instance && ReactTestUtils.isCompositeComponent(instance) && instance.isMounted()) {
-      React.unmountComponentAtNode(instance.getDOMNode());
+      React.unmountComponentAtNode(React.findDOMNode(instance));
+    }
+
+    if ( console.warn.called ) {
+      shouldWarn('Overlay mixin is deprecated');
     }
   });
 
@@ -44,7 +50,7 @@ describe('OverlayMixin', function () {
       <Container />
     );
 
-    assert.equal(instance.getDOMNode().querySelectorAll('#test1').length, 1);
+    assert.equal(React.findDOMNode(instance).querySelectorAll('#test1').length, 1);
   });
 
   it('Should not render a null overlay', function() {
