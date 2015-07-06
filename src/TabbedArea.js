@@ -10,9 +10,6 @@ import MenuItem from './MenuItem';
 let panelId = (props, child) => child.props.id ? child.props.id : props.id && (props.id + '___panel___' + child.props.eventKey);
 let tabId = (props, child) => child.props.id ? child.props.id + '___tab' : props.id && (props.id + '___tab___' + child.props.eventKey);
 
-let panelId = (props, child) => child.props.id ? child.props.id : props.id && (props.id + '___panel___' + child.props.eventKey);
-let tabId = (props, child) => child.props.id ? child.props.id + '___tab' : props.id && (props.id + '___tab___' + child.props.eventKey);
-
 function getDefaultActiveKeyFromChildren(children) {
   let defaultActiveKey;
 
@@ -101,15 +98,19 @@ const TabbedArea = React.createClass({
   renderPane(child, index) {
     let activeKey = this.getActiveKey();
 
-    if (child.props.onClick)
-      return;
-    if (child.props.navItem)
+    if (child.props.onClick) {
+
+      return null;
+
+    } else if (child.props.navItem) {
+
       return ValidComponentChildren.map(child.props.children, this.renderPane);
 
-    let active = (child.props.eventKey === activeKey &&
-            (this.state.previousActiveKey == null || !this.props.animation));
+    } else {
 
-    return cloneElement(
+      let active = (child.props.eventKey === activeKey &&
+            (this.state.previousActiveKey == null || !this.props.animation));
+      return cloneElement(
         child,
         {
           active,
@@ -121,11 +122,12 @@ const TabbedArea = React.createClass({
             child.props.eventKey === this.state.previousActiveKey) ? this.handlePaneAnimateOutEnd : null
         }
       );
+    }
   },
 
   renderMenu(child) {
     let {eventKey, className, tab, disabled, onClick} = child.props;
-    if (onClick)
+    if (onClick) {
       return (
         <MenuItem
           ref={'tab' + eventKey}
@@ -136,7 +138,8 @@ const TabbedArea = React.createClass({
           {tab}
         </MenuItem>
       );
-    else
+    }
+    else {
       return (
         <MenuItem
           ref={'tab' + eventKey}
@@ -146,12 +149,12 @@ const TabbedArea = React.createClass({
           {tab}
         </MenuItem>
       );
+    }
   },
 
   renderTab(child) {
-    
     let {eventKey, className, tab, disabled, navItem} = child.props;
-    if (navItem)
+    if (navItem) {
       return (
         <DropdownButton
           ref={'tab' + eventKey}
@@ -163,18 +166,19 @@ const TabbedArea = React.createClass({
           {ValidComponentChildren.map(child.props.children, this.renderMenu)}
         </DropdownButton>
       );
-
-    return (
-      <NavItem
-        linkId={tabId(this.props, child)}
-        ref={'tab' + eventKey}
-        aria-controls={panelId(this.props, child)}
-        eventKey={eventKey}
-        className={className}
-        disabled={disabled}>
-        {tab}
-      </NavItem>
-    );
+    } else {
+      return (
+        <NavItem
+          linkId={tabId(this.props, child)}
+          ref={'tab' + eventKey}
+          aria-controls={panelId(this.props, child)}
+          eventKey={eventKey}
+          className={className}
+          disabled={disabled}>
+          {tab}
+        </NavItem>
+      );
+    }
   },
 
   shouldComponentUpdate() {
